@@ -1,8 +1,8 @@
 NAME = UnnecessaryViolence
 
-C_FILES = HumanA.cpp\
-	Weapon.cpp\
+C_FILES = main.cpp\
 	HumanA.cpp\
+	Weapon.cpp\
 	HumanB.cpp\
 
 CFLAGS = -Wall -Werror -Wextra -std=c++98

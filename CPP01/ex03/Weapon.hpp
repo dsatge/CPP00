@@ -1,4 +1,6 @@
 # include <iostream>
+#ifndef WEAPON_HPP
+	#define WEAPON_HPP
 
 class	Weapon
 {
@@ -7,7 +9,9 @@ class	Weapon
 		
 	public:
 		Weapon(std::string type);
-		void Weapon::setType(std::string type);
-		void Weapon::getType( void );
+		void setType(std::string type);
+		std::string getType( void );
 		~Weapon ( void );
 };
+
+#endif
