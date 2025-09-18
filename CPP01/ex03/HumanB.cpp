@@ -26,3 +26,9 @@ void	HumanB::attack ( void )
 			<< std::endl;
 	}
 }
+
+void	HumanB::setWeapon (Weapon &Weapon)
+{
+	this->_Weapon = &Weapon;
+	return ;
+}

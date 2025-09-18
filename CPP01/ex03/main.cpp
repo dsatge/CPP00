@@ -4,17 +4,20 @@
 
 int	main( void )
 {
+	{
 	Weapon club = Weapon("shamefull laugh");
-
 	HumanA bob("Bob", club);
 	bob.attack();
-	club.setType("wood stick");
+	club.setType("some other type of club");
 	bob.attack();
-
-	HumanB Greg("Greg");
-	Greg.attack();
-	club.setType("love");
-	Greg.attack();
-	bob.attack();
-
+	}
+	{
+	HumanB greg("Greg");
+	greg.attack();
+	Weapon club = Weapon("love");
+	greg.setWeapon(club);
+	greg.attack();
+	club.setType("some other type of club");
+	greg.attack();
+	}
 }
