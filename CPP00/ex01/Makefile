@@ -2,9 +2,9 @@ NAME = MyAwesomePhoneBook
 
 C_FILES = main.cpp\
 	phonebook.cpp\
-	ontact.cpp\
+	contact.cpp\
 
-CFLAGS = -Wall -Werror -Wextra -std=c++98
+CFLAGS = -Wall -Werror -Wextra -std=c++98 -g
 
 C_TYPE = c++
 
