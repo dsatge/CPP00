@@ -6,6 +6,8 @@ int	main(void)
 	int	i;
 
 	i = 0;
+	if (N < 0)
+		return (1);
 	Zombie* Zomb = zombieHorde(N, "Didier");
 	while (i < N)
 	{
