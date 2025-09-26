@@ -53,7 +53,7 @@ std::string	contact_sized(std::string info)
 	int len_word = info.size();
 	if (len_word <= 10)
 		return (info);
-	return (info.substr(0, 7) + "...");
+	return (info.substr(0, 9) + ".");
 }
 
 void	PhoneBook::display_info(int i)
