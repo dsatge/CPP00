@@ -48,6 +48,46 @@ void	PhoneBook::add_contact( void )
 	std::cout << "Contact successfully added !" << std::endl;
 }
 
+std::string	contact_sized(std::string info)
+{
+	int len_word = info.size();
+	if (len_word <= 10)
+		return (info);
+	return (info.substr(0, 7) + "...");
+}
+
+void	PhoneBook::display_info(int i)
+{
+	std::cout << "Fist name: " << this->_contactTable[i].getFirstName() << std::endl
+		<< "Last name: " << this->_contactTable[i].getLastName() << std::endl
+		<< "Nickname: " << this->_contactTable[i].getNickName() << std::endl
+		<< "Phone number: " << this->_contactTable[i].getPhoneNumber() << std::endl
+		<< "Darkest secret: " << this->_contactTable[i].getDarkestSecret() << std::endl
+		<< std::endl;
+	return ;
+}
+
+void	PhoneBook::index_info( void )
+{
+	std::string line;
+	getline(std::cin, line);
+	std::stringstream index(line);
+	long long i;
+	if (!(index >> i))
+		return ;
+	index >> std::ws;
+	if (!(index.eof()))
+		return ;
+	int	max = this->_contactMax;
+		if (this->_contactMax == 0)
+		max = this->_contactIndex;
+	if (max == 0)
+		return ;
+	if (i > 8 || i < 0 || i >= max)
+		return ;
+	this->display_info(i);
+}
+
 void	PhoneBook::search_contact( void )
 {
 	std::cout << std::setw(10) << "Index"
@@ -63,10 +103,12 @@ void	PhoneBook::search_contact( void )
 	for (int i = 0; i < indexMax; i++)
 	{
 		std::cout << std::setw(10) << i << "|" 
-			<< std::setw(10) << _contactTable[i].getFirstName() << "|" 
-			<< std::setw(10) << _contactTable[i].getLastName() << "|"
-			<< std::setw(10) << _contactTable[i].getNickName() << "|"
+			<< std::setw(10) << contact_sized(_contactTable[i].getFirstName()) << "|" 
+			<< std::setw(10) << contact_sized(_contactTable[i].getLastName()) << "|"
+			<< std::setw(10) << contact_sized(_contactTable[i].getNickName()) << "|"
 			<< std::endl;
 	}
+	std::cout << "Press index number to see contact file" << std::endl;
+	this->index_info();
 	return ;
 }

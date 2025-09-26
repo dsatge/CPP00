@@ -1,4 +1,5 @@
 # include <iostream>
+# include <sstream>
 # include <iomanip>
 # include "contact.hpp"
 
@@ -17,5 +18,7 @@ class	PhoneBook
 		~PhoneBook();
 		void	add_contact( void );
 		void	search_contact( void );
+		void	display_info(int i);
+		void	index_info( void );
 };
 #endif
