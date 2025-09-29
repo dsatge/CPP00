@@ -10,60 +10,58 @@ Harl::~Harl (void)
 	return ;
 }
 
-void	Harl::debug( void )
+void	Harl::_debug( void )
 {
-	std::cerr << "DEBUG : this is a debug message" << std::endl;
+	std::cout << "'DEBUG' level: I love having extra bacon "
+		"for my 7XL-double-cheese-triple-pickle-special- "
+		"ketchup burger. I really do!" << std::endl;
 }
 
-void	Harl::info( void )
+void	Harl::_info( void )
 {
-	std::cerr << "INFO : this is an info message" << std::endl;
+	std::cout << "'INFO' level: I cannot believe adding extra "
+		"bacon costs more money. You didn’t put enough bacon "
+		"in my burger! If you did, I wouldn’t be asking for "
+		"more!" << std::endl;
 }
 
-void	Harl::warning( void )
+void	Harl::_warning( void )
 {
-	std::cerr << "WARNING : this is a warning message" << std::endl;
+	std::cout << "'WARNING' level:  think I deserve to have "
+		"some extra bacon for free. I’ve been coming for "
+		"years, whereas you started working here just last "
+		"month." << std::endl;
 }
 
-void	Harl::error( void )
+void	Harl::_error( void )
 {
-	std::cerr << "ERROR : this is an error message" << std::endl;
+	std::cout << "'ERROR' level: This is unacceptable! I "
+		"want to speak to the manager now." << std::endl;
 }
 
-int	level_convert(std::string &level)
+
+void	level_convert(std::string levels[])
 {
-	if (level == "debug" || level == "DEBUG")
-		return (1);
-	if (level == "info" || level == "INFO")
-		return (2);
-	if (level == "warning" || level == "WARNING")
-		return (3);
-	if (level == "error" || level == "ERROR")
-		return (4);
-	return (0);
+	levels[0] = "DEBUG";
+	levels[1] = "INFO";
+	levels[2] = "WARNING";
+	levels[3] = "ERROR";
+	return ;
 }
 
-void	Harl::complain(std::string level)
+void	Harl::complain(std::string complain)
 {
-	int	level_value = level_convert(level);
-	switch (level_value)
+	void	(Harl::*ptr[4])() = {&Harl::_debug, &Harl::_info, &Harl::_warning, &Harl::_error};
+	std::string levels[4];
+	level_convert(levels);
+	for (int i = 0; i < 4; i++)
 	{
-		case DEBUG:
-			debug();
-			break;
-		case INFO:
-			info();
-			break;
-		case WARNING:
-			warning();
-			break;
-		case ERROR:
-			error();
-			break;
-		case UNKNOWN:
-			std::cerr << level 
-			<< " : has no corresponding option. Please select debug, info, warning or error."
-			<< std::endl;
-			break;
+		if (levels[i] == complain)
+		{
+			(this->*ptr[i])();
+			return ;
+		}
 	}
+	std::cout << "'" << complain << "' level: complain level unknown"
+	 		<< std::endl;
 }

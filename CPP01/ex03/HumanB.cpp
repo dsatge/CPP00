@@ -15,7 +15,7 @@ void	HumanB::attack ( void )
 	if (this->_Weapon == NULL)
 	{
 		std::cout << this->_Name 
-			<< " forget to pick a weapon and is attacking bear hand"
+			<< " forget to pick a weapon and is attacking bare hands"
 			<< std::endl;
 	}
 	else

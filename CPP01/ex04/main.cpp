@@ -2,14 +2,9 @@
 #include <fstream>
 #include <sstream>
 
-int	parsing(int argc, char **argv)
+int	parsing(std::string s1)
 {
-	if (argc != 4)
-	{
-		std::cerr << "error: arg must contain filename followed by two words" << std::endl;
-		return (1);
-	}
-	if (std::string(argv[2]).length() == 0)
+	if (s1.length() == 0)
 	{
 		std::cerr << "error: word to replace is empty" << std::endl;
 		return (1);
@@ -47,35 +42,38 @@ int	check_outfile(std::ofstream &outfile)
 	return (0);
 }
 
-void	getwords(char **argv, std::string &line, std::ifstream &infile, std::ofstream &outfile)
+void	getwords(std::string s1, std::string s2, std::string &line, std::ifstream &infile, std::ofstream &outfile)
 {
-	int	len_find = std::string(argv[2]).length();
+	int	len_find = std::string(s1).length();
 	size_t pos = 0;
-	while ((pos = line.find(argv[2], pos)) != std::string::npos)
+	while ((pos = line.find(s1, pos)) != std::string::npos)
 	{
 		line.erase(pos, len_find);
-		line.insert(pos, argv[3]);
-		pos += std::string(argv[3]).size();
+		line.insert(pos, s2);
+		pos += std::string(s2).size();
 	}
 	outfile << line;
 	if (!infile.eof())
 		outfile << "\n";
 }
 
-int	main(int argc, char **argv)
+int	main( void )
 {
-	if (parsing(argc, argv) == 1)
+	std::string filename = "file.txt";
+	std::string s1 = "a";
+	std::string s2 = "aa";
+	if (parsing(s1) == 1)
 		return (1);
-	std::ifstream infile(argv[1]);
+	std::ifstream infile(filename.c_str());
 	if (check_infile(infile) == 1)
 		return (1);
-	std::string replaceFile = std::string(argv[1]) + ".replace";
+	std::string replaceFile = filename + ".replace";
 	std::ofstream outfile(replaceFile.c_str());
 	if (check_outfile(outfile) == 1)
 		return (1);
 	std::string line;
 	while (std::getline(infile, line))
-		getwords(argv, line, infile, outfile);
+		getwords(s1, s2, line, infile, outfile);
 	outfile.close();
 	infile.close();
 }

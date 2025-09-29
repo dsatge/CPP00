@@ -2,6 +2,15 @@
 # ifndef HARL_HPP
 	# define HARL_HPP
 
+enum level
+{
+	DEBUG = 1,
+	INFO = 2,
+	WARNING = 3,
+	ERROR = 4,
+	UNKNOWN = 0,
+};
+
 class	Harl
 {
 	private:
