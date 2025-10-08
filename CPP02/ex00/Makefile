@@ -1,7 +1,7 @@
 NAME = MonPremierCanon
 
 C_FILES = main.cpp\
-	Fixedstat.cpp
+	Fixed.cpp
 
 CFLAGS = -Wall -Werror -Wextra -std=c++98
 
