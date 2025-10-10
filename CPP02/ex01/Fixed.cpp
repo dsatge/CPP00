@@ -23,6 +23,14 @@ Fixed::Fixed (const Fixed& src) : _fixedvalue(src._fixedvalue)
     std::cout << "Copy constructor called" << std::endl;
 }
 
+Fixed& Fixed::operator=(const Fixed& src)
+{
+    if (this != &src)
+        this->_fixedvalue = src._fixedvalue;
+    std::cout << "Copy assignment operator called" << std::endl;
+    return (*this);
+}
+
 std::ostream& operator<<(std::ostream& out, const Fixed& src)
 {
     out << src.toFloat();

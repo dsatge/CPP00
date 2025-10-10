@@ -15,6 +15,7 @@ class Fixed
         Fixed(const int fixed);
         Fixed(const float fixed);
         Fixed(const Fixed& other);
+        Fixed& operator=(const Fixed& src);
         ~Fixed();
         float   toFloat(void) const;
         int     toInt(void) const;
@@ -27,21 +28,23 @@ class Fixed
         bool operator==(const Fixed& other) const;
         bool operator!=(const Fixed& other) const;
 
-        // changing object operator
-        Fixed& operator+(const Fixed& other);
-        Fixed& operator-(const Fixed& other);
-        Fixed& operator*(const Fixed& other);
-        Fixed& operator/(const Fixed& other);
+        // aritmetic operator
+        Fixed operator+(const Fixed& other);
+        Fixed operator-(const Fixed& other);
+        Fixed operator*(const Fixed& other);
+        Fixed operator/(const Fixed& other);
+
+        // crementation operator
         Fixed& operator++(void);
         Fixed operator++(int);
         Fixed& operator--(void);
         Fixed operator--(int);
 
         // changing object operator extra
-        Fixed& min(Fixed& left, Fixed& right);
-        const Fixed& min(const Fixed& left, const Fixed& right);
-        Fixed& max(Fixed& left, Fixed& right);
-        const Fixed& max(const Fixed& left, const Fixed& right);
+        static Fixed& min(Fixed& left, Fixed& right);
+        static const Fixed& min(const Fixed& left, const Fixed& right);
+        static Fixed& max(Fixed& left, Fixed& right);
+        static const Fixed& max(const Fixed& left, const Fixed& right);
         
 };
 std::ostream& operator<<(std::ostream& out, const Fixed& src);
