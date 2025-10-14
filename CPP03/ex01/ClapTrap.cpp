@@ -46,20 +46,20 @@ void    ClapTrap::attack(const std::string& target)
     std::cout << YELLOW << "//////////// ATTACK /////////////" << RESET << std::endl;
     if (this->_hit_point == 0)
     {
-        std::cout << "ClapTrap " << this->_name << " is " << RED << "dead" << RESET 
+        std::cout << this->_name << " is " << RED << "dead" << RESET 
                 << " and can not attack" << std::endl;
         return ;
     }
 
     if (this->_energy_point <= 0)
     {
-        std::cout << "ClapTrap " << this->_name << " can not attack "
+        std::cout << this->_name << " can not attack "
                 << target << ", there is " << RED << this->_energy_point
                 << " EP" << RESET << " left." << std::endl;
         return ;
     }
     this->_energy_point--;
-    std::cout << "ClapTrap " << this->_name << " attacks "
+    std::cout << this->_name << " attacks "
             << target << ", causing " << MAGENTA << this->_attack_damage
             << " damage" << RESET << "!" << std::endl;
     return ;
@@ -72,14 +72,14 @@ void ClapTrap::takeDamage(unsigned int amount)
     std::cout << YELLOW << "////////// TAKE DAMAGE //////////" << RESET << std::endl;
     if (this->_hit_point <= 0)
     {
-        std::cout << "ClapTrap is already " << RED << "dead" << RESET << std::endl;
+        std::cout << this->_name << " is already " << RED << "dead" << RESET << std::endl;
     }
-    std::cout << "ClapTrap received " << MAGENTA << amount
+    std::cout << this->_name << " received " << MAGENTA << amount
             << " damages" << RESET << "." << std::endl;
     this->_hit_point -= amount;
     if (this->_hit_point < 0)
         this->_hit_point = 0;
-    std::cout << "ClapTrap has " << GREEN << this->_hit_point << " HP" << RESET
+    std::cout << this->_name << " has " << GREEN << this->_hit_point << " HP" << RESET
             << " left." << std::endl;
 }
 
@@ -88,21 +88,21 @@ void   ClapTrap::beRepaired(unsigned int amount)
     std::cout << YELLOW << "//////////// HEALING ////////////" << RESET << std::endl;
     if (this->_hit_point <= 0)
     {
-        std::cout << "ClapTrap " << this->_name << " is " << RED << "dead" << RESET
+        std::cout << this->_name << " is " << RED << "dead" << RESET
                 << " and can not heal" << std::endl;
         return ;    
     }
     if (this->_energy_point == 0)
     {
-        std::cout << "ClapTrap " << this->_name << " can not heal. It has " << RED << "0 EP" << RESET << " left." << std::endl;
+        std::cout << this->_name << " can not heal. It has " << RED << "0 EP" << RESET << " left." << std::endl;
         return ;
     }
     this->_energy_point--;
     if (amount < 0) // security: make sure it takes only positive dommage.
         amount *= -1;
     this->_hit_point += amount;
-    std::cout << "ClapTrap " << this->_name << " healed "
-            << amount << "HP. It has now " << GREEN << this->_hit_point << " HP" << RESET
+    std::cout << this->_name << " healed " << GREEN << amount << " HP"
+            << RESET << " It has now " << GREEN << this->_hit_point << " HP" << RESET
             << " and " << CYAN << this->_energy_point << " EP" << RESET << " left." << std::endl;
 }
 
