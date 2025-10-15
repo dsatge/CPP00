@@ -30,5 +30,10 @@ int main()
     const WrongAnimal* zombie_cat = new WrongCat();
     zombie_cat->makeSound();
     delete (zombie_cat);
+
+    std::cout << "\n////// Test Class animal //////\n" << std::endl;    
+    Animal* typeofbird = new Animal();
+    typeofbird->makeSound();
+    delete (typeofbird);
     return (0);
 }
