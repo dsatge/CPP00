@@ -4,7 +4,9 @@ C_FILES = main.cpp\
 	Brain.cpp\
 	Cat.cpp\
 	Dog.cpp\
-	Animal.cpp
+	Animal.cpp\
+	WrongAnimal.cpp\
+	WrongCat.cpp
 
 CFLAGS = -Wall -Werror -Wextra -std=c++98
 

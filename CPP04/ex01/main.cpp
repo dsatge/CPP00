@@ -1,4 +1,6 @@
 #include "Animal.hpp"
+#include "WrongAnimal.hpp"
+#include "WrongCat.hpp"
 #include "Cat.hpp"
 #include "Dog.hpp"
 
@@ -23,5 +25,10 @@ int main()
     std::cout << "\n////// Kill all animal from the table //////\n" << std::endl;    
     for (int i = 0; i < 10; i++)
         delete (animals[i]);
+
+    std::cout << "\n////// Test Brainless Cat aka Wrong cat //////\n" << std::endl;    
+    const WrongAnimal* zombie_cat = new WrongCat();
+    zombie_cat->makeSound();
+    delete (zombie_cat);
     return (0);
 }
