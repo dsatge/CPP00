@@ -1,8 +1,11 @@
-#include <iostream>
-#include "AMateria.hpp"
-
 #ifndef CHARACTER_HPP
     #define CHARACTER_HPP
+
+#include <iostream>
+#include <vector>
+#include "ICharacter.hpp"
+#include "AMateria.hpp"
+
 
 #define RESET   "\033[0m"
 #define RED     "\033[31m"
@@ -14,12 +17,14 @@
 #define WHITE   "\033[37m"
 #define BOLD    "\033[1m"
 
-class Character
+class AMateria;
+
+class Character : public ICharacter
 {
     protected:
         AMateria*   _inventory[4];
-        int         _index_inv;
         std::string _name;
+        std::vector <AMateria*> _garbageMateria;
     public:
         //////COPLIEN FORM
         Character();
@@ -31,6 +36,6 @@ class Character
         std::string const & getName() const;
         void equip(AMateria* m);
         void unequip(int idx);
-        void use(int idx, Character& target);
+        void use(int idx, ICharacter& target);
 };
 #endif

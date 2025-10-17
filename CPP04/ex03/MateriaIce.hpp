@@ -1,8 +1,9 @@
-#ifndef ICHARACTER_HPP
-    #define ICHARACTER_HPP
+#ifndef MATERIAICE_HPP
+    #define MATERIAICE_HPP
 
 #include <iostream>
 #include "AMateria.hpp"
+#include "ICharacter.hpp"
 
 
 #define RESET   "\033[0m"
@@ -15,19 +16,21 @@
 #define WHITE   "\033[37m"
 #define BOLD    "\033[1m"
 
-class AMateria;
+class ICharacter;
 
-class ICharacter
+class Ice : public AMateria
 {
     protected:
 
     public:
         //////COPLIEN FORM
-        virtual ~ICharacter();
+        Ice();
+        Ice(const Ice& other);
+        Ice& operator=(const Ice& other);
+        virtual ~Ice();
         ///////OTHER
-        virtual std::string const & getName() const = 0;
-        virtual void equip(AMateria* m) = 0;
-        virtual void unequip(int idx) = 0;
-        virtual void use(int idx, ICharacter& target) = 0;
+        std::string const&  getType(void) const;
+        AMateria* clone() const;
+        void use(ICharacter& target);
 };
 #endif

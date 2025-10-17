@@ -1,7 +1,8 @@
-#ifndef ICHARACTER_HPP
-    #define ICHARACTER_HPP
+#ifndef MATERIACURE_HPP
+    #define MATERIACURE_HPP
 
 #include <iostream>
+#include "ICharacter.hpp"
 #include "AMateria.hpp"
 
 
@@ -15,19 +16,19 @@
 #define WHITE   "\033[37m"
 #define BOLD    "\033[1m"
 
-class AMateria;
-
-class ICharacter
+class Cure : public AMateria
 {
     protected:
 
     public:
         //////COPLIEN FORM
-        virtual ~ICharacter();
+        Cure();
+        Cure(const Cure& other);
+        Cure& operator=(const Cure& other);
+        virtual ~Cure();
         ///////OTHER
-        virtual std::string const & getName() const = 0;
-        virtual void equip(AMateria* m) = 0;
-        virtual void unequip(int idx) = 0;
-        virtual void use(int idx, ICharacter& target) = 0;
+        std::string const&  getType(void) const;
+        AMateria* clone() const;
+        void use(ICharacter& target);
 };
 #endif

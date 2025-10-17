@@ -1,23 +1,27 @@
-#include "Animal.hpp"
-#include "WrongAnimal.hpp"
-#include "WrongCat.hpp"
-#include "Cat.hpp"
-#include "Dog.hpp"
+#include "AMateria.hpp"
+#include "ICharacter.hpp"
+#include "MateriaCure.hpp"
+#include "MateriaIce.hpp"
+#include "Character.hpp"
+#include "IMateriaSource.hpp"
+#include "MateriaSource.hpp"
 
 int main()
 {
-
+    IMateriaSource* src = new MateriaSource();
+    src->learnMateria(new Ice());
+    src->learnMateria(new Cure());
+    ICharacter* me = new Character("me");
+    AMateria* tmp;
+    tmp = src->createMateria("Ice");
+    me->equip(tmp);
+    tmp = src->createMateria("Cure");
+    me->equip(tmp);
+    ICharacter* bob = new Character("bob");
+    me->use(0, *bob);
+    me->use(1, *bob);
+    delete bob;
+    delete me;
+    delete src;
     return (0);
 }
-
-// Ce qu’il faut respecter (contraintes & pièges)
-// Les classes abstraites (interfaces) ne peuvent pas être instanciées
-// Les méthodes virtuelles pures (= 0) imposent aux dérivées de les implémenter
-// Gérer la copie profonde (deep copy) pour Character et pour les AMateria
-// unequip ne doit pas supprimer l’objet, mais “le libérer” du personnage (et il
-// faut gérer ce qu’on fait de la materia détachée)
-// Interface IMateriaSource doit apprendre et cloner
-// Respecter les noms de fonctions, noms de classes, fichiers .hpp et .cpp comme indiqué
-// Ne pas définir des méthodes dans le header (sauf templates)
-// Attention aux fuites de mémoire (new/delete)
-// Le programme doit implémenter tout ce qu’on demande, notamment les interactions entre matières, personnages, clonage

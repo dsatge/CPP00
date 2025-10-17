@@ -1,21 +1,30 @@
-#include "Character.hpp"
+#include "AMateria.hpp"
 #include "ICharacter.hpp"
+#include "Character.hpp"
+#include "MateriaCure.hpp"
+#include "MateriaIce.hpp"
 
 ////////////////////////////////////////////
 ////////        COPLIEN FORM        ////////
 
-Character::Character( void ) : _index_inv(0)
+Character::Character( void ) : _name("Random Wizard")
 {
+    for (int i = 0; i < 4; i++)
+        _inventory[i] = NULL;
     std::cout << "Default Character constructor" << std::endl;
     return;
 }
 
 Character::Character(const Character& other)
 {
-    this->_name = other._name;
-    this->_index_inv = other._index_inv;
+    _name = other._name;
     for (int i = 0; i < 4; i++)
-        this->_inventory[i] = other._inventory[i];
+    {
+        if (other._inventory[i])
+            _inventory[i] = other._inventory[i]->clone();
+        else
+            _inventory[i] = NULL;
+    }    
     return ;
 }
 
@@ -23,17 +32,29 @@ Character& Character::operator=(const Character& other)
 {
     if (this != &other)
     {
-        this->_name = other._name;
-        this->_index_inv = other._index_inv;
+        _name = other._name;
         for (int i = 0; i < 4; i++)
-            this->_inventory[i] = other._inventory[i];
+        {
+            delete _inventory[i];
+            if (other._inventory[i])
+                _inventory[i] = other._inventory[i]->clone();
+            else
+                _inventory[i] = NULL;
+        }
+        for (std::vector<AMateria*>::iterator it = _garbageMateria.begin(); it != _garbageMateria.end(); ++it)
+            delete *it;
+        _garbageMateria.clear();
     }
     return (*this);
 } 
 
 Character::~Character( void )
 {
-    std::cout << "Character has been killed by the destructor" << std::endl;
+    for (std::vector<AMateria*>::iterator it = _garbageMateria.begin(); it != _garbageMateria.end(); ++it)
+        delete *it;
+    for (int i = 0; i < 4; i++)
+        delete _inventory[i];
+    std::cout << "Character " << _name << " has been killed by the destructor" << std::endl;
     return ;
 }
 
@@ -42,12 +63,47 @@ Character::~Character( void )
 
 Character::Character(std::string name) : _name(name)
 {
-    std::cout << this->_name << " Character constructor" << std::endl;
+    for (int i = 0; i < 4; i++)
+        _inventory[i] = NULL;
+    std::cout << "Character constructor" << std::endl;
     return;
 }
 
-void    equip(AMateria* m)
+std::string const & Character::getName() const
 {
-    thi
+    return (_name);
 }
 
+void    Character::equip(AMateria* m)
+{
+    int empty_slot = 0;
+    bool    inventory_full = true;
+    for (int i = 0; i < 4; i++)
+    {
+        if (_inventory[i] == NULL)
+            inventory_full = false;
+    }
+    if (inventory_full == true)
+    {
+        _garbageMateria.push_back(m);
+        return ;
+    }
+    while (_inventory[empty_slot] == NULL)
+        empty_slot++;
+    _inventory[empty_slot] = m;
+}
+
+void Character::unequip(int idx)
+{
+    if (idx < 0 || idx > 3 || !_inventory[idx])
+        return ;
+    _garbageMateria.push_back(_inventory[idx]);
+    _inventory[idx] = NULL;
+}
+
+void Character::use(int idx, ICharacter& target)
+{
+    if (idx < 0 || idx > 3 || !_inventory[idx])
+        return ;
+    _inventory[idx]->use(target);
+}

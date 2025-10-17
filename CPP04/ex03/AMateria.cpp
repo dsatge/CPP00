@@ -1,21 +1,27 @@
-#include "Animal.hpp"
+#include "AMateria.hpp"
+#include "ICharacter.hpp"
+#include "MateriaCure.hpp"
+#include "MateriaIce.hpp"
+#include "Character.hpp"
+#include "IMateriaSource.hpp"
+#include "MateriaSource.hpp"
 
 ////////////////////////////////////////////
 ////////        COPLIEN FORM        ////////
 
-Animal::Animal( void ) : _type("Animal")
+AMateria::AMateria(std::string const& type) : _type(type)
 {
-    std::cout << "Default " << MAGENTA << this->_type << RESET
-            << " constructor" << std::endl;
+    std::cout << "Default AMateria constructor" << std::endl;
     return;
 }
 
-Animal::Animal(const Animal& other) : _type(other._type)
+AMateria::AMateria(const AMateria& other)
 {
+    this->_type = other._type;
     return ;
 }
 
-Animal& Animal::operator=(const Animal& other)
+AMateria& AMateria::operator=(const AMateria& other)
 {
     if (this != &other)
     {
@@ -24,22 +30,21 @@ Animal& Animal::operator=(const Animal& other)
     return (*this);
 } 
 
-Animal::~Animal( void )
+AMateria::~AMateria( void )
 {
-    std::cout << MAGENTA << "Animal" << RESET
-            << " has been killed by the destructor" << std::endl;
+    std::cout << "AMateria has been destructoyed" << std::endl;
     return ;
 }
 
 ////////////////////////////////////////////
 ////////      OTHER  FUNCTIONS      ////////
 
-std::string   Animal::getType(void) const
+std::string const&  AMateria::getType(void) const
 {
     return (this->_type);
 }
 
-// void    Animal::makeSound(void) const
-// {
-//     std::cout << MAGENTA << "*undistinct noise*" << RESET << std::endl;
-// }
+void AMateria::use(ICharacter& target)
+{
+    (void)target;
+}

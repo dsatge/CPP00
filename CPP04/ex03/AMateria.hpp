@@ -1,6 +1,9 @@
-#include <iostream>
 #ifndef AMATERIA_HPP
     #define AMATERIA_HPP
+    
+#include <iostream>
+#include "ICharacter.hpp"
+
 
 #define RESET   "\033[0m"
 #define RED     "\033[31m"
@@ -12,20 +15,21 @@
 #define WHITE   "\033[37m"
 #define BOLD    "\033[1m"
 
+class ICharacter;
+
 class AMateria
 {
     protected:
-
+        std::string _type;
     public:
         //////COPLIEN FORM
-        AMateria();
-        AMateria(const AMateria& other);
-        AMateria& operator=(const AMateria& other);
+        AMateria(std::string const& type);
+        AMateria(const AMateria &other);
+        AMateria &operator=(const AMateria &other);
         virtual ~AMateria();
         ///////OTHER
-        AMateria(std::string const& type);
         std::string const&  getType(void) const;
         virtual AMateria* clone() const = 0;
-        virtual void use(ICharacter& target);
+        virtual void use(ICharacter& target) ;
 };
 #endif

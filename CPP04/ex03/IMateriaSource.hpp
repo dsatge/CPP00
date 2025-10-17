@@ -1,5 +1,5 @@
-#ifndef ICHARACTER_HPP
-    #define ICHARACTER_HPP
+#ifndef IMATERIASOURCE_HPP
+    #define IMATERIASOURCE_HPP
 
 #include <iostream>
 #include "AMateria.hpp"
@@ -15,19 +15,16 @@
 #define WHITE   "\033[37m"
 #define BOLD    "\033[1m"
 
-class AMateria;
-
-class ICharacter
+class IMateriaSource
 {
     protected:
 
     public:
         //////COPLIEN FORM
-        virtual ~ICharacter();
+        virtual ~IMateriaSource();
         ///////OTHER
-        virtual std::string const & getName() const = 0;
-        virtual void equip(AMateria* m) = 0;
-        virtual void unequip(int idx) = 0;
-        virtual void use(int idx, ICharacter& target) = 0;
+        virtual void learnMateria(AMateria*) = 0;
+        virtual AMateria* createMateria(std::string const & type) = 0;
 };
+
 #endif

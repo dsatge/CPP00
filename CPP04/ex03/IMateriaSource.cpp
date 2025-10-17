@@ -1,11 +1,12 @@
-#include "ICharacter.hpp"
+#include "AMateria.hpp"
+#include "IMateriaSource.hpp"
 
 ////////////////////////////////////////////
 ////////        COPLIEN FORM        ////////
 
-ICharacter::~ICharacter( void )
+IMateriaSource::~IMateriaSource( void )
 {
-    std::cout << "ICharacter has been killed by the destructor" << std::endl;
+    std::cout << "IMateriaSource has been destructoyed" << std::endl;
     return ;
 }
 

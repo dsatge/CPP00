@@ -1,7 +1,13 @@
-NAME = Interface&Recap
+NAME = InterfaceRecap
 
 C_FILES = main.cpp\
 	AMateria.cpp\
+	MateriaCure.cpp\
+	MateriaIce.cpp\
+	ICharacter.cpp\
+	Character.cpp\
+	IMateriaSource.cpp\
+	MateriaSource.cpp
 
 CFLAGS = -Wall -Werror -Wextra -std=c++98
 
