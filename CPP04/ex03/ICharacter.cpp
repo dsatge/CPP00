@@ -5,7 +5,6 @@
 
 ICharacter::~ICharacter( void )
 {
-    std::cout << "ICharacter has been killed by the destructor" << std::endl;
     return ;
 }
 

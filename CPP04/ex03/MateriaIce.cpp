@@ -7,7 +7,6 @@
 
 Ice::Ice( void ) : AMateria("Ice")
 {
-    std::cout << "Materia Ice default constructor" << std::endl;
     return;
 }
 
@@ -27,7 +26,6 @@ Ice& Ice::operator=(const Ice& other)
 
 Ice::~Ice( void )
 {
-    std::cout << "Ice has been killed by the destructor" << std::endl;
     return ;
 }
 
@@ -47,5 +45,6 @@ std::string const&  Ice::getType(void) const
 
 void Ice::use(ICharacter& target)
 {
-    std::cout << "* shoots an ice bolt at " << target.getName() << " *" << std::endl;
+    std::cout << CYAN << "* shoots an ice bolt at " << target.getName() 
+            << " *" << RESET << std::endl;
 }

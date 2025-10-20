@@ -9,14 +9,11 @@ MateriaSource::MateriaSource( void )
 {
     for (int i = 0; i < 4; i++)
         this->_allMateria[i] = NULL;
-    std::cout << "Default MateriaSource constructor" << std::endl;
     return;
 }
 
 MateriaSource::MateriaSource(const MateriaSource& other)
 {
-    // for (std::vector<AMateria*>::iterator it = _garbageMateria.begin(); it != _garbageMateria.end(); ++it)
-    //     delete *it;
     for (int i = 0; i < 4; i++)
         this->_allMateria[i] = other._allMateria[i];
     return ;
@@ -26,8 +23,6 @@ MateriaSource& MateriaSource::operator=(const MateriaSource& other)
 {
     if (this != &other)
     {
-        // for (std::vector<AMateria*>::iterator it = _garbageMateria.begin(); it != _garbageMateria.end(); ++it)
-        //     delete *it;
         for (int i = 0; i < 4; i++)
             this->_allMateria[i] = other._allMateria[i];
     }
@@ -36,9 +31,8 @@ MateriaSource& MateriaSource::operator=(const MateriaSource& other)
 
 MateriaSource::~MateriaSource( void )
 {
-    // for (std::vector<AMateria*>::iterator it = _garbageMateria.begin(); it != _garbageMateria.end(); ++it)
-    //     delete *it;
-    std::cout << "MateriaSource has been killed by the destructor" << std::endl;
+    for (int i = 0; i < 4; i++)
+        delete _allMateria[i];
     return ;
 }
 
@@ -77,11 +71,9 @@ AMateria* MateriaSource::createMateria(std::string const & type)
     }
     if (type_exist == true)
     {
-        std::cout << "sans soucis ~~~ " << type << std::endl;
         AMateria* clone = _allMateria[same_type]->clone();
-        std::cout << MAGENTA << "Resiste" << RESET << std::endl;
         return (clone);
     }
-    std::cout << "okay bizard l ambiance" << std::endl;
+    std::cout << "* trying to create un unknown Materia*" << std::endl;
     return (0);
 }

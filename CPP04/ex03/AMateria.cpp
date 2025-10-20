@@ -11,7 +11,6 @@
 
 AMateria::AMateria(std::string const& type) : _type(type)
 {
-    std::cout << "Default AMateria constructor" << std::endl;
     return;
 }
 
@@ -32,7 +31,6 @@ AMateria& AMateria::operator=(const AMateria& other)
 
 AMateria::~AMateria( void )
 {
-    std::cout << "AMateria has been destructoyed" << std::endl;
     return ;
 }
 

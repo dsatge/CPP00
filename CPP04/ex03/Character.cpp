@@ -11,7 +11,6 @@ Character::Character( void ) : _name("Random Wizard")
 {
     for (int i = 0; i < 4; i++)
         _inventory[i] = NULL;
-    std::cout << "Default Character constructor" << std::endl;
     return;
 }
 
@@ -53,8 +52,10 @@ Character::~Character( void )
     for (std::vector<AMateria*>::iterator it = _garbageMateria.begin(); it != _garbageMateria.end(); ++it)
         delete *it;
     for (int i = 0; i < 4; i++)
-        delete _inventory[i];
-    std::cout << "Character " << _name << " has been killed by the destructor" << std::endl;
+    {
+        if (_inventory[i] != NULL)
+            delete _inventory[i];
+    }
     return ;
 }
 
@@ -65,7 +66,6 @@ Character::Character(std::string name) : _name(name)
 {
     for (int i = 0; i < 4; i++)
         _inventory[i] = NULL;
-    std::cout << "Character constructor" << std::endl;
     return;
 }
 
@@ -76,27 +76,29 @@ std::string const & Character::getName() const
 
 void    Character::equip(AMateria* m)
 {
-    int empty_slot = 0;
-    bool    inventory_full = true;
+    if (!m)
+        return ;
+
     for (int i = 0; i < 4; i++)
     {
         if (_inventory[i] == NULL)
-            inventory_full = false;
+        {
+            _inventory[i] = m;
+            return ;
+        }
     }
-    if (inventory_full == true)
-    {
-        _garbageMateria.push_back(m);
-        return ;
-    }
-    while (_inventory[empty_slot] == NULL)
-        empty_slot++;
-    _inventory[empty_slot] = m;
+    std::cout << "* inventory already full the Materia fell on the ground*" << std::endl;
+    _garbageMateria.push_back(m);
+    return ;
 }
 
 void Character::unequip(int idx)
 {
     if (idx < 0 || idx > 3 || !_inventory[idx])
+    {
+        std::cout << "* trying to reach un-present Materia*" << std::endl;
         return ;
+    }
     _garbageMateria.push_back(_inventory[idx]);
     _inventory[idx] = NULL;
 }
@@ -104,6 +106,9 @@ void Character::unequip(int idx)
 void Character::use(int idx, ICharacter& target)
 {
     if (idx < 0 || idx > 3 || !_inventory[idx])
+    {
+        std::cout << "* trying to reach un-present Materia*" << std::endl;
         return ;
+    }
     _inventory[idx]->use(target);
 }

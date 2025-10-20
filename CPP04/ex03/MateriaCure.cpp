@@ -7,7 +7,6 @@
 
 Cure::Cure( void ) : AMateria("Cure")
 {
-    std::cout << "Materia Cure default constructor" << std::endl;
     return;
 }
 
@@ -27,7 +26,6 @@ Cure& Cure::operator=(const Cure& other)
 
 Cure::~Cure( void )
 {
-    std::cout << "Cure has been destroyed" << std::endl;
     return ;
 }
 
@@ -46,5 +44,6 @@ std::string const&  Cure::getType(void) const
 
 void Cure::use(ICharacter& target)
 {
-    std::cout << "* heals " << target.getName() << " wounds*" << std::endl;
+    std::cout << GREEN << "* heals " << target.getName() << " wounds *" 
+            << RESET << std::endl;
 }
