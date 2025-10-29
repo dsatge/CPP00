@@ -16,10 +16,6 @@ class RobotomyRequestForm : public AForm
         ~RobotomyRequestForm();
 
         /// Methods ///
-        // std::string getName() const;
-        // bool getSigned() const;
-        // int getRequiredSigningGrade() const;
-        // int getRequiredExecuteGrade() const;
         void execute(Bureaucrat const &executor);
         //// Exception ///
         class FailedRobotomy : public std::exception

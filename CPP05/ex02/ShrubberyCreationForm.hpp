@@ -16,10 +16,6 @@ class Shrubbery : public AForm
         ~Shrubbery();
 
         /// Methods ///
-        // std::string getName() const;
-        // bool getSigned() const;
-        // int getRequiredSigningGrade() const;
-        // int getRequiredExecuteGrade() const;
         void execute(Bureaucrat const &executor);
         //// Exception ///
         class FailCreateOutfile : public std::exception
