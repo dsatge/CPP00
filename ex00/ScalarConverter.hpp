@@ -2,6 +2,7 @@
     # define SCALARCONVERTER_HPP
 
 #include <iostream>
+#include <climits>
 #define RESET   "\033[0m"
 #define RED     "\033[31m"
 #define GREEN   "\033[32m"
@@ -23,17 +24,6 @@ class ScalarConverter
         ~ScalarConverter();
         //// METHODS
         void convert(const std::string& str);
-        //// EXCEPTIONS
-        class IsWhiteSpace : public std::exception
-        {
-            public :
-                virtual const char* what() const throw();
-        };
-        class IsNotPossible : public std::exception
-        {
-            public :
-                virtual const char* what() const throw();
-        };
 };
 
 # endif

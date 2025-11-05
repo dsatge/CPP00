@@ -30,6 +30,11 @@ ScalarConverter::~ScalarConverter( void )
 
 bool    is_char(const std::string& str)
 {
+    // Check special math form
+    if (str == "inff" || str == "-inff" || str == "inf" | str == "-inf"
+            || str == "nan" || str == "nanf")
+        return (false);
+
     // Check if there is more than one char:
     int i = 0;
     while (str[i])
@@ -38,17 +43,25 @@ bool    is_char(const std::string& str)
     return (false);
 
     // Check if str is ascii:
-    if (str[0] < 0 && str[0] > 127)
+    if (str[0] <= 0 && str[0] >= 127)
         return (false);
-
+    // Check if str is num:
+    if (str[0] >= '0' && str[0] <= '9')
+        return (false);
     return (true);
 }
 
 bool    is_int(const std::string& str)
 {
+    // Check special math form
+    if (str == "inff" || str == "-inff" || str == "inf" | str == "-inf"
+            || str == "nan" || str == "nanf")
+        return (false);
+
     int i = 0;
     if (str[i] == '-' || str[i] == '+')
         i++;
+    
     while (str[i])
     {
         if (str[i] == '.' || !(str[i] >= '0' && str[i] <= '9'))
@@ -60,19 +73,27 @@ bool    is_int(const std::string& str)
 
 bool    is_float(const std::string& str)
 {
+    // check for math form
+    if (str == "inff" || str == "-inff" || str == "nanf")
+        return (true);
     int i = 0;
     if (str[i] == '-' || str[i] == '+')
         i++;
+
     // Check ending with f
     while (str[i])
         i++;
-    if (str[i - 1] && str[i - 1] == 'f')
+    if (str[i - 1] && str[i - 1] == 'f'
+            && !(str == "inf" || str == "-inf" || str == "nan"))
         return (true);
     return (false);
 }
 
 bool    is_double(const std::string& str)
 {
+    // check for math form
+    if (str == "inf" || str == "-inf" || str == "nan")
+        return (true);
     int i = 0;
     bool flagComa = false;
     
@@ -96,9 +117,10 @@ void    convert_from_char(const std::string c)
     std::cout << CYAN << "char: " << RESET;
 
     // Check for special cases as char:
-    if (std::isnan(c[0]))
+    if (c == "inff" || c == "-inff" || c == "inf" | c == "-inf"
+            || c == "nan" || c == "nanf" || c[0] > 127 || c[0] < 0)
         std::cout << CYAN << "impossible" << RESET << std::endl;
-    else if (c[0] < 0 && c[0] > 127)
+    else if (c[0] < 32 || c[0] > 126)
         std::cout << CYAN << "Non displayable" << RESET << std::endl;
     else
         std::cout << CYAN << "'" << c << "'" << RESET << std::endl;
@@ -111,21 +133,26 @@ void    convert_from_char(const std::string c)
 
 void    convert_from_int(const std::string str)
 {
+    long    nbr_overflow;
     int nbr;
     std::stringstream ss(str);
-    ss >> nbr;
+    ss >> nbr_overflow;
+    nbr = static_cast<int>(nbr_overflow);
 
     std::cout << "char: ";
     // Check for special cases as char:
-    if (std::isnan(nbr))
+    if (std::isnan(nbr) || nbr > 127 || nbr < 0)
         std::cout << "impossible" << std::endl;
-    else if (nbr < 0 || nbr > 127)
+    else if (nbr < 32 || nbr > 126)
         std::cout << "Non displayable" << std::endl;
     else
         std::cout << "'" << static_cast<char>(nbr) << "'" << std::endl;
 
-    // convert int
-    std::cout << CYAN << "int: " << nbr << RESET << std::endl;
+    // int max check
+    if (nbr_overflow > INT_MAX || nbr_overflow < INT_MIN)
+        std::cout << CYAN << "int: impossible" << RESET << std::endl;
+    else
+        std::cout << CYAN << "int: " << nbr << RESET << std::endl;
         
     // Convert to other scalar
     std::cout << "float: " << std::fixed << std::setprecision(1) 
@@ -133,57 +160,96 @@ void    convert_from_int(const std::string str)
     std::cout << "double: " << static_cast<double>(nbr) << std::endl;
 }
 
+void    convert_from_float(const std::string str)
+{
+    float nbr;
+    std::stringstream ss(str);
+    ss >> nbr;
+
+    // Check for special cases as char:
+    if (nbr > 127 || nbr < 0 || str == "inff"
+            || str == "-inff" || str == "nanf")
+        std::cout << "char: impossible" << std::endl;
+    else if (nbr < 32 || nbr > 126)
+        std::cout << "char: Non displayable" << std::endl;
+    else
+        std::cout << "char: '" << static_cast<char>(nbr) << "'" << std::endl;
+
+    // Check math forms
+    if (str == "inff" || str == "-inff" || str == "nanf")
+    {
+        std::cout << "int: impossible" << std::endl;
+        std::cout << CYAN << "float: " << str << RESET << std::endl;
+        std::cout << "double: " << str << std::endl;
+        return ;
+    }
+
+    // convert to other scalar
+    // int max check
+    long nbr_overflow = static_cast<long>(nbr);
+    if (nbr_overflow > INT_MAX || nbr_overflow < INT_MIN)
+        std::cout << "int: impossible" << std::endl;
+    else
+        std::cout << "int: " << nbr << std::endl;
+    
+    // Convert float
+    std::cout << CYAN << "float: " << std::fixed << std::setprecision(1) 
+        << nbr << "f" << RESET << std::endl;
+
+    //convert other scalar
+    std::cout << "double: " << static_cast<double>(nbr) << std::endl;
+}
+
+void    convert_from_double(const std::string str)
+{
+    double nbr;
+    std::stringstream ss(str);
+    ss >> nbr;
+
+    std::cout << "char: ";
+    // Check for special cases as char:
+    if (nbr > 127 || nbr < 0 || str == "inf" || str == "-inf" || str == "nan")
+        std::cout << "impossible" << std::endl;
+    else if (nbr < 32 || nbr > 126)
+        std::cout << "Non displayable" << std::endl;
+    else
+        std::cout << "'" << static_cast<char>(nbr) << "'" << std::endl;
+
+    // Check math forms
+    if (str == "inf" || str == "-inf" || str == "nan")
+    {
+        std::cout << "int: impossible" << std::endl;
+        std::cout << "float: " << str << std::endl;
+        std::cout << CYAN << "double: " << str << RESET << std::endl;
+        return ;
+    }
+    
+    // convert to other scalar        
+    // int max check
+    long nbr_overflow = static_cast<long>(nbr);
+    if (nbr_overflow > INT_MAX || nbr_overflow < INT_MIN)
+        std::cout << "int: impossible" << std::endl;
+    else
+        std::cout << "int: " << nbr << std::endl;
+
+    std::cout << "float: " << std::fixed << std::setprecision(1) 
+            << nbr << "f" << std::endl;
+
+    // Convert double
+    std::cout << CYAN << "double: " << nbr << RESET << std::endl;
+}
+
+
 void ScalarConverter::convert(const std::string& str)
 {
-    try 
-    {
-        if (is_char(str) == true)
-            convert_from_char(str);
-        else if (is_int(str) == true)
-            convert_from_int(str);
-        else if (is_float(str) == true)
-        {
-            float nbr;
-            std::stringstream ss(str);
-            ss >> nbr;
-
-            std::cout << "char: '" << static_cast<char>(nbr) << "'" << std::endl;
-            std::cout << "int: " << static_cast<int>(nbr) << std::endl;
-            std::cout << CYAN << "float: " << std::fixed << std::setprecision(1) 
-                    << nbr << "f" << RESET << std::endl;
-            std::cout << "double: " << static_cast<double>(nbr) << std::endl;
-
-        }
-        else if (is_double(str) == true)
-        {
-            double nbr;
-            std::stringstream ss(str);
-            ss >> nbr;
-
-            std::cout << "char: '" << static_cast<char>(nbr) << "'" << std::endl;
-            std::cout << "int: " << static_cast<int>(nbr) << std::endl;
-            std::cout << "float: " << std::fixed << std::setprecision(1) 
-                    << static_cast<float>(nbr) << "f" << std::endl;
-            std::cout << CYAN << "double: " << nbr << RESET << std::endl;
-        }
-        else
-            return ;
-    }
-    catch (const std::exception &e)
-    {
-        std::cout << e.what() << std::endl;
-    }
-    // Char, int, float, double
-}
-
-//////// EXCEPTIONS
-
-const char *ScalarConverter::IsWhiteSpace::what() const throw()
-{
-    return ("Non displayable");
-}
-
-const char* ScalarConverter::IsNotPossible::what() const throw()
-{
-    return ("impossible");
+    if (is_char(str) == true)
+        convert_from_char(str);
+    else if (is_int(str) == true)
+        convert_from_int(str);
+    else if (is_float(str) == true)
+        convert_from_float(str);
+    else if (is_double(str) == true)
+        convert_from_double(str);
+    else
+        return ;
 }
