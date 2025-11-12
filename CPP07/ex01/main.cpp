@@ -8,27 +8,19 @@ int main(void)
 
     std::cout << "a = " << a << " b = " << b << std::endl;
     std::cout << "~~~ SWAP ~~~" << std::endl;
-    ::swap(a, b);
+    swap(a, b);
     std::cout << "a = " << a << " b = " << b << std::endl;
 
     std::cout << "\na = " << a << " b = " << b << std::endl;
-    std::cout << "~~~ min = " << ::min(a, b) << std::endl;
+    std::cout << "~~~ min = " << min(a, b) << std::endl;
     
 
     std::cout << "\na = " << a << " b = " << b << std::endl;
-    std::cout << "~~~ max = " << ::max(a, b) << std::endl;
+    std::cout << "~~~ max = " << max(a, b) << std::endl;
 
     std::cout << "\n CHECK EQUALS SECOND ARGUMENT" << std::endl;
     a = 5;
     b = 5;
     std::cout << "a adress = " << &a << " | b adress = " << &b << std::endl;
-    std::cout << "smallest adress = " << &::min(a, b) << std::endl;
-    
-    std::cout << "\n TEST WITH STRING" << std::endl;
-    std::string c = "chaine1";
-    std::string d = "chaine2";
-    ::swap(c, d);
-    std::cout << "c = " << c << ", d = " << d << std::endl;
-    std::cout << "min( c, d ) = " << ::min( c, d ) << std::endl;
-    std::cout << "max( c, d ) = " << ::max( c, d ) << std::endl;
+    std::cout << "smallest adress = " << &min(a, b) << std::endl;
 }
