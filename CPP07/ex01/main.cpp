@@ -1,26 +1,27 @@
-# include "whatever.hpp"
+# include "iter.hpp"
 # include <iostream>
 
 int main(void)
 {
-    int a = 2;
-    int b = 3;
+    int array[5] = {0, 1, 2, 3, 4};
 
-    std::cout << "a = " << a << " b = " << b << std::endl;
-    std::cout << "~~~ SWAP ~~~" << std::endl;
-    swap(a, b);
-    std::cout << "a = " << a << " b = " << b << std::endl;
+    std::cout << YELLOW << "ARRAY TYPE INT : " << RESET << std::endl;
+    std::cout << "test funtion print" << CYAN << " (const)" << RESET << std::endl;
+    ::iter(array, 5, print_content);
+    std::cout << "\ntest funtion + 10" << CYAN << " (const)" << RESET << std::endl;
+    ::iter(array, 5, print_add_one);
+    std::cout << "\ntest increase array" << CYAN << " (non const) " << RESET << "& print" << std::endl;
+    ::iter(array, 5, increment);
+    ::iter(array, 5, print_content);
 
-    std::cout << "\na = " << a << " b = " << b << std::endl;
-    std::cout << "~~~ min = " << min(a, b) << std::endl;
-    
+    std::cout << YELLOW << "\n\nARRAY TYPE CHAR : " << RESET << std::endl;
+    char arrayC[5] = {'H', 'E', 'L', 'L', 'O'};
+    std::cout << "test funtion print" << CYAN << " (const)" << RESET << std::endl;
+    ::iter(arrayC, 5, print_content);
+    std::cout << "\ntest funtion + 10" << CYAN << " (const)" << RESET << std::endl;
+    ::iter(arrayC, 5, print_add_one);
+    std::cout << "\ntest increase array" << CYAN << " (non const) " << RESET << "& print" << std::endl;
+    ::iter(arrayC, 5, increment);
+    ::iter(arrayC, 5, print_content);
 
-    std::cout << "\na = " << a << " b = " << b << std::endl;
-    std::cout << "~~~ max = " << max(a, b) << std::endl;
-
-    std::cout << "\n CHECK EQUALS SECOND ARGUMENT" << std::endl;
-    a = 5;
-    b = 5;
-    std::cout << "a adress = " << &a << " | b adress = " << &b << std::endl;
-    std::cout << "smallest adress = " << &min(a, b) << std::endl;
 }
