@@ -1,5 +1,5 @@
 # ifndef ARRAY_HPP
-    # define ARRAY_HPP
+    #define ARRAY_HPP
 
 # include <iostream>
 #define RESET   "\033[0m"
@@ -16,12 +16,26 @@ template <typename T>
 class Array
 {
     private:
+        T   *_array;
+        unsigned int   _arrayElementLen;
     public:
         Array();
         Array(unsigned int n);
-        Array(const Array &other);
-        Array& operator=(const Array &other);
+        Array(const Array<T> &other);
+        T& operator=(const Array<T> &other);
+        T& operator[](const Array<T> &other);
         ~Array();
+
+        class ArrayIndexUnexist : std::exception
+        {
+            public:
+                virtual const char *what() const throw();
+        };
 };
+
+template <typename T>
+std::ostream& operator<<(std::ostream &out, const Array<T> arr);
+
+# include "Array.tpp"
 
 # endif
