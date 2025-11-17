@@ -23,10 +23,13 @@ class Array
         Array(unsigned int n);
         Array(const Array<T> &other);
         T& operator=(const Array<T> &other);
-        T& operator[](const Array<T> &other);
+        T& operator[](unsigned int index);
+        T& operator[](unsigned int index) const;
         ~Array();
 
-        class ArrayIndexUnexist : std::exception
+        unsigned int    size(void) const;
+
+        class ArrayIndexUnexist : public std::exception
         {
             public:
                 virtual const char *what() const throw();
