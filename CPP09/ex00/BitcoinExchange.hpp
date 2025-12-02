@@ -2,7 +2,12 @@
     # define BITCOINEXCHANGE_HPP
 
 # include <iostream>
+# include <fstream>
+# include <sstream>
 # include <map>
+# include <iomanip>
+# include <limits.h>
+
 #define RESET   "\033[0m"
 #define RED     "\033[31m"
 #define GREEN   "\033[32m"
@@ -16,25 +21,22 @@
 class BitcoinExchange
 {
     private:
+        std::map<std::string, int> _ExchangeRateData;   
     public:
-        BitcoinExchange(std::istream file);
-        BitcoinExchange(const BitcoinExchange &other);
-        BitcoinExchange& operator=(const BitcoinExchange &other);
+        BitcoinExchange();
+        // BitcoinExchange(const BitcoinExchange &other);
+        // BitcoinExchange& operator=(const BitcoinExchange &other);
         ~BitcoinExchange();
 
-        class WrongArgumentCount : public std::exception
-        {
-            virtual const char* what() const throw();
-        };
-        class WrongFileFormat : public std::exception
-        {
-            virtual const char* what() const throw();
-        };
         class FileNotReadable : public std::exception
         {
             virtual const char* what() const throw();
         };
-        class WrongValueFormat : public std::exception
+        class WrongDataInfile : public std::exception
+        {
+            virtual const char* what() const throw();
+        };
+        class NegativeValue : public std::exception
         {
             virtual const char* what() const throw();
         };
@@ -42,10 +44,19 @@ class BitcoinExchange
         {
             virtual const char* what() const throw();
         };
-        class NegativNumber : public std::exception
+        class TooHighValue : public std::exception
+        {
+            virtual const char* what() const throw();
+        };
+        class NoDateData : public std::exception
+        {
+            virtual const char* what() const throw();
+        };
+        class OutOfRange : public std::exception
         {
             virtual const char* what() const throw();
         };
 };
 
+void    checkFormatDate(std::string date);
 # endif
