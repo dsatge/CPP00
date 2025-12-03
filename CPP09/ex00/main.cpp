@@ -1,17 +1,6 @@
 # include "BitcoinExchange.hpp"
 # include <fstream>
 
-// void    parsing(int argc, std::string filename)
-// {
-//     if (argc != 1)
-//         throw WrongArgumentCount();
-//     std::ifstream file(filename.c_str());
-//     if (!file.good())
-//         throw WrongFileFormat();
-//     if (!file.is_open())
-//         throw FileNotReadable();
-// }
-
 int main(int argc, char** argv)
 {
     (void)argc;

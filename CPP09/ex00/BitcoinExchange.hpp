@@ -24,10 +24,11 @@ class BitcoinExchange
         std::map<std::string, int> _ExchangeRateData;   
     public:
         BitcoinExchange();
-        // BitcoinExchange(const BitcoinExchange &other);
-        // BitcoinExchange& operator=(const BitcoinExchange &other);
+        BitcoinExchange(const BitcoinExchange &other);
+        BitcoinExchange& operator=(const BitcoinExchange &other);
         ~BitcoinExchange();
 
+        void convert(std::string dataFile);
         class FileNotReadable : public std::exception
         {
             virtual const char* what() const throw();
@@ -59,4 +60,5 @@ class BitcoinExchange
 };
 
 void    checkFormatDate(std::string date);
+void    validDate(std::string year, std::string month, std::string day);
 # endif

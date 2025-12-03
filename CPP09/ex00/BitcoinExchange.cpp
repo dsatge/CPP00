@@ -1,18 +1,48 @@
 # include "BitcoinExchange.hpp"
 
-void    checkFormatDate(std::string date)
-{
-    std::string year;
-    std::string month;
-    std::string day;
 
-    year = date.substr(0, 4);
-    month = date.substr(5, 2);
-    day = date.substr(8, 2);
-    // std::cout << "year: " << year
-    //         << " / month: " << month
-    //         << " / day: " << day << std::endl;
+//////////////////////////////////////////////////////////////////
+////////////////////// CLASS  CONSTRUCTION  //////////////////////
+//////////////////////////////////////////////////////////////////
+
+BitcoinExchange::BitcoinExchange(const BitcoinExchange &other)
+{
+    this->_ExchangeRateData = other._ExchangeRateData;
+    return ;
 }
+
+BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange &other)
+{
+    if (this != &other)
+    {
+        this->_ExchangeRateData = other._ExchangeRateData;
+    }
+    return (*this);
+}
+
+BitcoinExchange::~BitcoinExchange()
+{
+    return ;
+}
+
+//////////////////////////////////////////////////////////////////
+//////////////////////// UTILS FUNCTIONS  ////////////////////////
+//////////////////////////////////////////////////////////////////
+
+void    bissextileLen(std::string year, std::string day)
+{
+    int iyear;
+    std::stringstream ss(year);
+    ss >> iyear;
+    if (iyear % 4 == 0)
+    {
+        if (day > "29")
+            throw BitcoinExchange::BadInput();
+    }
+    else if (day > "28")
+        throw BitcoinExchange::BadInput();
+}
+
 
 std::string getDate(std::string line)
 {
@@ -57,25 +87,80 @@ BitcoinExchange::BitcoinExchange()
     std::getline(DataFile, line);
     if (line != "date,exchange_rate")
         throw WrongDataInfile();
-    std::cout << "first line recognise as: date,exchange_rate" << std::endl;
     while (std::getline(DataFile, line))
     {
         std::string date = getDate(line);
-        // std::cout << "test date : " << date << std::endl;
         float       rate = getRate(line);
-        std::cout << "test rate : " << rate << std::endl;
         _ExchangeRateData[date] = rate;
     }
 }
 
-BitcoinExchange::~BitcoinExchange()
+//////////////////////////////////////////////////////////////////
+/////////////////////////// FUNCTIONS  ///////////////////////////
+//////////////////////////////////////////////////////////////////
+
+void    checkFormatDate(std::string date)
 {
-    return ;
+    std::string year;
+    std::string month;
+    std::string day;
+    std::string separator;
+
+    year = date.substr(0, 4);
+    separator = date.substr(4, 1);
+    if (separator != "-")
+        throw BitcoinExchange::BadInput();
+    month = date.substr(5, 2);
+    separator = date.substr(7, 1);
+    if (separator != "-")
+        throw BitcoinExchange::BadInput();
+    day = date.substr(8, 2);
+    std::stringstream ss(month);
+    validDate(year, month, day);
 }
 
-        // BitcoinExchange(const BitcoinExchange &other);
-        // BitcoinExchange& operator=(const BitcoinExchange &other);
-
+void    validDate(std::string year, std::string month, std::string day)
+{
+    int iday;
+    std::stringstream ss(day);
+    ss >> iday;
+    std::string monthTab[12] = {
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10",
+        "11",
+        "12"};
+    std::string dayTab[12] = {
+        "31",
+        "28",
+        "31",
+        "30",
+        "31",
+        "30",
+        "31",
+        "31",
+        "30",
+        "31",
+        "30",
+        "31"};
+    for (int i = 0; i < 12; i++)
+    {
+        if (monthTab[i] == month)
+        {
+            if (month == "02")
+                bissextileLen(year, day);
+            else if (day > dayTab[i])
+                throw BitcoinExchange::BadInput();
+        }
+    }
+}
 
 //////////////////////////////////////////////////////////////////
 /////////////////////////// EXCEPTIONS ///////////////////////////
