@@ -7,6 +7,7 @@
 # include <map>
 # include <iomanip>
 # include <limits.h>
+# include <exception>
 
 #define RESET   "\033[0m"
 #define RED     "\033[31m"
@@ -21,44 +22,60 @@
 class BitcoinExchange
 {
     private:
-        std::map<std::string, int> _ExchangeRateData;   
+        std::map<std::string, int> _ExchangeRateData; 
     public:
         BitcoinExchange();
         BitcoinExchange(const BitcoinExchange &other);
         BitcoinExchange& operator=(const BitcoinExchange &other);
         ~BitcoinExchange();
 
-        void convert(std::string dataFile);
+        void convert(std::string dataName);
         class FileNotReadable : public std::exception
         {
-            virtual const char* what() const throw();
+            public:
+                virtual const char* what() const throw();
         };
         class WrongDataInfile : public std::exception
         {
-            virtual const char* what() const throw();
+            public:
+                virtual const char* what() const throw();
         };
         class NegativeValue : public std::exception
         {
-            virtual const char* what() const throw();
+            public:
+                virtual const char* what() const throw();
         };
         class BadInput : public std::exception
         {
-            virtual const char* what() const throw();
+            private:
+                std::string _errorfile;
+            public:
+                BadInput(const std::string &errorLine) throw();
+                virtual const char* what() const throw();
+                virtual ~BadInput() throw();
         };
         class TooHighValue : public std::exception
         {
-            virtual const char* what() const throw();
+            public:
+                virtual const char* what() const throw();
         };
         class NoDateData : public std::exception
         {
-            virtual const char* what() const throw();
+            public:
+                virtual const char* what() const throw();
         };
         class OutOfRange : public std::exception
         {
-            virtual const char* what() const throw();
+            public:
+                virtual const char* what() const throw();
         };
 };
 
-void    checkFormatDate(std::string date);
-void    validDate(std::string year, std::string month, std::string day);
+void        checkFormatDate(std::string date);
+bool        csvFile(std::string fileName);
+std::string getDate(std::string line);
+float       getRate(std::string line);
+float       getQuantity(std::string line);
+void        validDate(std::string year, std::string month, std::string day, std::string date);
+
 # endif

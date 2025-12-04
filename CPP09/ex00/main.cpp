@@ -8,6 +8,7 @@ int main(int argc, char** argv)
     try
     {
         BitcoinExchange mapList = BitcoinExchange();
+        mapList.convert("date_quantities.csv");
         std::cout << "Checkpoint" << std::endl;
     }
     catch(const std::exception& e)
