@@ -50,17 +50,25 @@ BitcoinExchange::~BitcoinExchange()
 
 std::string closestDate(std::string date, std::map<std::string, int> map)
 {
-    std::map<std::string, int>::iterator it = map.begin();
-    if (date < it->first)
+    std::map<std::string, int>::iterator itBegin = map.begin();
+    if (date < itBegin->first)
         throw BitcoinExchange::NoDateData();
     if (map.count(date) == 1)
         return date;
-    else
-    {
-        
-    }
-        std::cout << "asked for diff dates" << std::endl;
-    return (it->first);
+    std::map<std::string, int>::iterator closestDate = map.upper_bound(date);
+    if (closestDate->first == itBegin->first)
+        return (map.end()->first);
+    closestDate--;
+    return (closestDate->first);
+}
+
+float   value(std::string dateRate, float quantity, std::map<std::string, int> map)
+{
+    float   exchangeRate;
+
+    exchangeRate = map[dateRate];
+    (void)quantity;
+    return (exchangeRate * quantity);
 }
 
 //////////////////////////////////////////////////////////////////
@@ -70,8 +78,8 @@ std::string closestDate(std::string date, std::map<std::string, int> map)
 void    BitcoinExchange::convert(std::string dataName)
 {
     std::ifstream DataFile(dataName.c_str());
-    if (csvFile(dataName) == false)
-        throw FileNotReadable();
+    // if (csvFile(dataName) == false)
+    //     throw FileNotReadable();
     if (!DataFile.good())
         throw FileNotReadable();
     if (!DataFile.is_open())
@@ -88,8 +96,10 @@ void    BitcoinExchange::convert(std::string dataName)
         {
             date = getDate(line);
             quantity = getQuantity(line);
-            closestDate(date, _ExchangeRateData);
-            std::cout << date << " => " << quantity << " = " << std::endl;
+            std::string dateRate = closestDate(date, _ExchangeRateData);
+            std::cout << date << " => " << quantity 
+                    << " = " << value(dateRate, quantity, _ExchangeRateData)
+                    << std::endl;
         }
         catch(const std::exception& e)
         {
@@ -167,6 +177,8 @@ float getQuantity(std::string line)
     float       fquantity;
 
     startPos = line.find("|", 0) + 1;
+    if (startPos == 0)
+        throw BitcoinExchange::NoQuantityData();
     endOfWord = line.size() - (startPos);
     quantity = line.substr(startPos, endOfWord);
 
@@ -273,6 +285,11 @@ const char* BitcoinExchange::NegativeValue::what() const throw()
 const char* BitcoinExchange::TooHighValue::what() const throw()
 {
     return ("value number too high");
+}
+
+const char* BitcoinExchange::NoQuantityData::what() const throw()
+{
+    return ("no quantity data");
 }
 
 const char* BitcoinExchange::OutOfRange::what() const throw()

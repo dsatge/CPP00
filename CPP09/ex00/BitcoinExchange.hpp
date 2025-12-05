@@ -64,6 +64,11 @@ class BitcoinExchange
             public:
                 virtual const char* what() const throw();
         };
+        class NoQuantityData : public std::exception
+        {
+            public:
+                virtual const char* what() const throw();
+        };
         class OutOfRange : public std::exception
         {
             public:
