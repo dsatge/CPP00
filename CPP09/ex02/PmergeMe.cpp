@@ -124,6 +124,67 @@ void    mergeSort_Vector(std::vector<int> &array, int start, int end)
     ////////////////
 }
 
+void    insertBinarySearch_Vector(std::vector<int> &sortedArray
+    ,std::vector<int> &toInsertArray)
+{
+    int index = 0;
+    int toInsertArraySize = toInsertArray.size();
+    int left = 0;
+    int right = sortedArray.size();
+    int mid = (left + right) / 2;
+    // Affichage: //
+    std::vector<int>::iterator it = sortedArray.begin();
+    std::cout << "\nsorted largest values:\n";
+    for (; it != sortedArray.end(); it++)
+        std::cout << " " << *it;
+    std::cout << "\n";
+    std::vector<int>::iterator it2 = toInsertArray.begin();
+    std::cout << "\nto insert values:\n";
+    for (; it2 != toInsertArray.end(); it2++)
+        std::cout << " " << *it2;
+    std::cout << "\n";
+    //////////////
+
+    while (index < toInsertArraySize)
+    {
+        std::cout << RED << " mid = " << mid << " mid value = " << sortedArray[mid] << " value to insert = " << toInsertArray[index] << RESET << std::endl;
+        if (toInsertArray[index] == sortedArray[mid])
+        {
+            sortedArray.insert(sortedArray.begin() + mid, toInsertArray[index]);
+            index++;
+        }
+        else if (toInsertArray[index] > sortedArray[mid])
+        {
+            std::cout << GREEN << "to Insert Array[index] = " << toInsertArray[index]
+                    << " is bigger than sortedArray[mid] " << sortedArray[mid] << RESET << std::endl;
+            left = mid;
+            mid = (left + right) / 2;
+        }
+        else if (toInsertArray[index] < sortedArray[mid])
+        {
+            std::cout << MAGENTA << "to Insert Array[index] = " << toInsertArray[index]
+                    << " is smaller than sortedArray[mid] " << sortedArray[mid] << RESET << std::endl;
+            right = mid;
+            mid = (left + right) / 2;
+        }
+        if (right - left == 1 || right - left == 0 || left - right == 1 || left - right == 0 )
+        {
+            std::cout << "check\nleft = " << left << " : " << sortedArray[left]
+                    << " right = " << right << " : " << sortedArray[right] 
+                    << " mid = " << mid << std::endl;
+            sortedArray.insert(sortedArray.begin() + mid + 1, toInsertArray[index]);
+            index++;
+            left = 0;
+            right = sortedArray.size();
+            mid = (left + right) / 2;
+            it = sortedArray.begin();
+            for (; it != sortedArray.end(); it++)
+                std::cout << " " << *it;
+            std::cout << "\n";
+        }
+    }
+}
+
 void    algo_Vector(std::vector<int> array)
 {
     int len_array = array.size();
@@ -136,24 +197,25 @@ void    algo_Vector(std::vector<int> array)
         if (array[i] > array[i + 1])
         {
             largest_array.push_back(array[i]);
-            other_array.push_back(array[i + 1]);
+            if (array[i + 1])
+                other_array.push_back(array[i + 1]);
         }
         else
         {
             largest_array.push_back(array[i + 1]);
+            if (array[i + 1])
             other_array.push_back(array[i]);
         }
 
     }
     mergeSort_Vector(largest_array, 0, largest_array.size());
-    // algo_Vector(right_array);
-    // sort_Vector(left_array, right_array, array);
-    // std::vector<int>::iterator itlarge = largest_array.begin();
+    insertBinarySearch_Vector(largest_array, other_array);
+    std::vector<int>::iterator itlarge = largest_array.begin();
     // std::cout << "largest :\n";
-    // for (; itlarge != largest_array.end(); itlarge++)
-    // {
-    //     std::cout << " " << *itlarge;
-    // }
+    for (; itlarge != largest_array.end(); itlarge++)
+    {
+        std::cout << CYAN << " " << *itlarge << RESET;
+    }
     // std::vector<int>::iterator itsother = other_array.begin();
     // std::cout << "other :\n";
     // for (; itsother != other_array.end(); itsother++)
