@@ -9,6 +9,8 @@
 # include <sstream>
 # include <limits.h>
 # include <algorithm>
+# include <sys/time.h>
+# include <iomanip>
 
 #define RESET   "\033[0m"
 #define RED     "\033[31m"
